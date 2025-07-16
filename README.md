@@ -1,0 +1,25 @@
+# MathOps Microservice
+
+A lightweight, production-ready microservice that supports three math operations: power, Fibonacci, and factorial.
+
+## Features
+- FastAPI async API
+- Async worker queue
+- SQLite logging
+- Pydantic for serialization
+- Docker-ready
+
+## Run It
+```bash
+docker build -t mathops .
+docker run -p 8000:8000 mathops
+```
+
+## API Example
+```bash
+POST /calculate
+{
+  "op": "pow",
+  "a": 2,
+  "b": 10
+}
