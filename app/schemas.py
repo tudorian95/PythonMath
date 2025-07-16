@@ -12,4 +12,8 @@ class MathRequest(BaseModel):
     b: int | None = None
 
 class MathResponse(BaseModel):
-    result: int
+    job_id: str
+
+class MathResult(BaseModel):
+    result: int | None = None
+    status: str

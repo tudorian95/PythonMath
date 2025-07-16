@@ -12,7 +12,9 @@ A lightweight, production-ready microservice that supports three math operations
 ## Run It
 ```bash
 docker build -t mathops .
-docker run -p 8000:8000 mathops
+docker run -p 8000:8000 -v "%cd%\db:/app/db" mathops
+then open http://localhost:8000/docs in your browser
+and use the api
 ```
 
 ## API Example

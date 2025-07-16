@@ -1,28 +1,30 @@
 import asyncio
-from app.services import calc_pow, calc_fib, calc_fact
-from app.db import SessionLocal
-from app.models import MathOperation
+import uuid
+from models import MathOperation
+from services import calc_pow, calc_fib, calc_fact
+from db import SessionLocal
 
 queue = asyncio.Queue()
 
 async def worker():
     while True:
-        item = await queue.get()
+        job = await queue.get()
         session = SessionLocal()
         try:
-            op, a, b = item["op"], item["a"], item.get("b")
+            op, a, b, job_id = job["op"], job["a"], job.get("b"), job["job_id"]
+            result = None
             if op == "pow":
                 result = calc_pow(a, b)
             elif op == "fib":
                 result = calc_fib(a)
             elif op == "fact":
                 result = calc_fact(a)
-            else:
-                result = None
 
-            db_entry = MathOperation(op=op, a=a, b=b, result=result)
-            session.add(db_entry)
+            db_op = session.query(MathOperation).filter_by(id=job_id).first()
+            db_op.result = result
+            db_op.status = "done"
             session.commit()
         finally:
             session.close()
             queue.task_done()
+

@@ -1,9 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
-from app.api import router
-from app.models import Base
-from app.db import engine
-from app.workers import worker
+from api import router
+from models import Base
+from db import engine
+from workers import worker
 import asyncio
 
 app = FastAPI(title="MathOps Microservice")
