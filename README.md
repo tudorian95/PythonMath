@@ -12,13 +12,18 @@ A lightweight, production-ready microservice that supports three math operations
 - 🆕 Simple built-in web UI available at `/ui`
 
 ## Run It
-```bash
+```cmd
 docker build -t mathops .
+
+for cmd use:
 docker run -p 8000:8000 -v "%cd%\db:/app/db" mathops
+
+for powershell use:
+docker run -p 8000:8000 -v "C:\Users\tudor\source\repos\PythonMath\db:/app/db" mathops
 ```
 
 ## API Example
-```bash
+```
 POST /calculate
 {
   "op": "pow",
