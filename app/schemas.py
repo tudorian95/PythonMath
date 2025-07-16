@@ -15,5 +15,5 @@ class MathResponse(BaseModel):
     job_id: str
 
 class MathResult(BaseModel):
-    result: int | None = None
+    result: str | None = None  # Change result type to str
     status: str
