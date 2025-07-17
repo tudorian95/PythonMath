@@ -132,6 +132,14 @@ async def serve_ui():
         function toggleBField() {
           const op = document.getElementById('op').value;
           const bField = document.getElementById('b-field');
+          const aInput = document.getElementById('a');
+          const bInput = document.getElementById('b');
+          
+          // Reset inputs when operation changes
+          aInput.value = '';
+          bInput.value = '';
+          
+          // Show/hide B field based on operation
           bField.style.display = op === 'pow' ? 'block' : 'none';
         }
 
@@ -235,3 +243,175 @@ async def serve_ui():
       </body>
     </html>
     """
+
+
+@router.get("/db", response_class=HTMLResponse)  
+async def view_db(page: int = 1):
+    items_per_page = 100
+    offset = (page - 1) * items_per_page
+    session = SessionLocal()
+    
+    try:
+        # Get total count for pagination
+        total_count = session.query(MathOperation).count()
+        total_pages = (total_count + items_per_page - 1) // items_per_page
+
+        operations = session.query(MathOperation)\
+            .order_by(MathOperation.timestamp.desc())\
+            .offset(offset)\
+            .limit(items_per_page).all()
+
+        rows_html = ""
+        for op in operations:
+            timestamp = op.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+            rows_html += f"""
+                <tr>
+                    <td>{op.id}</td>
+                    <td class="timestamp">{timestamp}</td>
+                    <td>{op.op}</td>
+                    <td>{op.a}</td>
+                    <td>{op.b if op.b else '-'}</td>
+                    <td>{op.result if op.result else 'pending'}</td>
+                    <td>{op.status}</td>
+                </tr>
+            """
+        
+        # Add pagination controls
+        pagination_html = """
+            <div class="pagination">
+        """
+        if page > 1:
+            pagination_html += f"""
+                <a href="/db?page={page-1}" class="page-btn">Previous</a>
+            """
+        
+        pagination_html += f"""
+            <span class="page-info">Page {page} of {total_pages}</span>
+        """
+        
+        if page < total_pages:
+            pagination_html += f"""
+                <a href="/db?page={page+1}" class="page-btn">Next</a>
+            """
+        
+        pagination_html += "</div>"
+
+        return f"""
+        <html>
+          <head>
+            <title>MathOps DB Viewer</title>
+            <style>
+                body {{
+                    background-color: #333333;
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    min-height: 100vh;
+                }}
+                .container {{
+                    background-color: white;
+                    padding: 2rem;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+                    margin: 0 auto;
+                    max-width: 1200px;
+                }}
+                table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }}
+                th, td {{
+                    border: 1px solid #ddd;
+                    padding: 12px;
+                    text-align: left;
+                }}
+                th {{
+                    background-color: #4CAF50;
+                    color: white;
+                }}
+                tr:nth-child(even) {{
+                    background-color: #f5f5f5;
+                }}
+                h2 {{
+                    color: #333;
+                    margin-top: 0;
+                }}
+                .refresh {{
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    float: right;
+                }}
+                td {{
+                    border: 1px solid #ddd;
+                    padding: 12px;
+                    text-align: left;
+                    font-size: 14px;
+                }}
+                .timestamp {{
+                    white-space: nowrap;
+                    color: #666;
+                }}
+                .pagination {{
+                    margin-top: 20px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 20px;
+                }}
+                .page-btn {{
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    text-decoration: none;
+                }}
+                .page-btn:hover {{
+                    background-color: #45a049;
+                }}
+                .page-info {{
+                    color: #666;
+                    font-size: 14px;
+                }}
+                .table-container {{
+                    overflow-x: auto;
+                    margin-bottom: 20px;
+                }}
+            </style>
+          </head>
+          <body>
+            <div class="container">
+                <h2>Database Operations
+                    <button class="refresh" onclick="location.reload()">Refresh</button>
+                </h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Job ID</th>
+                                <th>Timestamp</th>
+                                <th>Operation</th>
+                                <th>A</th>
+                                <th>B</th>
+                                <th>Result</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {rows_html}
+                        </tbody>
+                    </table>
+                </div>
+                {pagination_html}
+            </div>
+          </body>
+        </html>
+        """
+    finally:
+        session.close()

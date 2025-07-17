@@ -34,4 +34,5 @@ GET /result/{job_id}
 ```
 
 ## Interact with the web UI
-Visit [http://localhost:8000/ui](http://localhost:8000/ui) to use the form-based interface.
+Visit (http://localhost:8000/ui) to use the form-based interface.
+Visit (http://localhost:8000/db) to check the logs of the operations.
