@@ -74,6 +74,57 @@ async def serve_ui():
     <html>
       <head>
         <title>MathOps UI</title>
+        <style>
+          body {
+            background-color: #333333;  /* Darker gray background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;  /* Horizontal center */
+            align-items: center;      /* Vertical center */
+          }
+          .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            width: 320px;
+          }
+          select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+          }
+          button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 16px;
+          }
+          button:hover {
+            background-color: #45a049;
+          }
+          h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+          }
+          #result {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            background-color: #f5f5f5;
+            border-radius: 6px;
+          }
+        </style>
         <script>
         function toggleBField() {
           const op = document.getElementById('op').value;
@@ -161,25 +212,23 @@ async def serve_ui():
         }
         </script>
       </head>
-      <body onload="toggleBField()">
-        <h2>MathOps Web UI</h2>
-        <form onsubmit="submitForm(event)">
-          <label>Operation:</label>
-          <select id="op" onchange="toggleBField()">
-            <option value="pow">Power</option>
-            <option value="fib">Fibonacci</option>
-            <option value="fact">Factorial</option>
-          </select><br><br>
-
-          <label>A:</label><input id="a" type="number"><br><br>
-
-          <div id="b-field">
-            <label>B (for pow):</label><input id="b" type="number"><br><br>
-          </div>
-
-          <button type="submit">Submit</button>
-        </form>
-        <h3 id="result"></h3>
+      <body>
+        <div class="container">
+          <h2>MathOps Calculator</h2>
+          <form onsubmit="submitForm(event)">
+            <select id="op" onchange="toggleBField()">
+              <option value="pow">Power</option>
+              <option value="fib">Fibonacci</option>
+              <option value="fact">Factorial</option>
+            </select>
+            <input id="a" type="number" placeholder="Enter value for A">
+            <div id="b-field">
+              <input id="b" type="number" placeholder="Enter value for B (power only)">
+            </div>
+            <button type="submit">Calculate</button>
+          </form>
+          <div id="result"></div>
+        </div>
       </body>
     </html>
     """
