@@ -1,17 +1,16 @@
 # MathOps Microservice
 
-A lightweight, production-ready microservice that supports three math operations: power, Fibonacci, and factorial.
+A lightweight python microservice that supports three math operations: power, fibonacci, and factorial.
 
-## Features
-- FastAPI async API
-- Async worker queue
-- SQLite logging
-- Pydantic for serialization
+## Tech stack
+- Python 3.11 lite
+ - FastAPI async API
+ - Async worker queue
+ - SQLite logging
+ - Pydantic for serialization
 - Docker-ready
-- Job tracking support via `/result/{job_id}`
-- 🆕 Simple built-in web UI available at `/ui`
 
-## Run It
+## Build and run
 ```cmd
 docker build -t mathops .
 
@@ -34,5 +33,5 @@ POST /calculate
 GET /result/{job_id}
 ```
 
-## Web UI
+## Interact with the web UI
 Visit [http://localhost:8000/ui](http://localhost:8000/ui) to use the form-based interface.
