@@ -4,6 +4,7 @@ from datetime import datetime
 
 Base = declarative_base()
 
+
 class MathOperation(Base):
     __tablename__ = "operations"
     id = Column(String, primary_key=True, index=True)

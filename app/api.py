@@ -1,8 +1,7 @@
 import uuid
 import logging
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
 from schemas import MathRequest, MathResponse, MathResult
 from workers import queue
 from db import SessionLocal
@@ -10,6 +9,7 @@ from models import MathOperation
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
+
 
 @router.post("/calculate", response_model=MathResponse)
 async def calculate(req: MathRequest):
@@ -40,6 +40,7 @@ async def calculate(req: MathRequest):
     logger.info(f"Task added to queue with job_id: {job_id}")
     return {"job_id": job_id}
 
+
 @router.get("/result/{job_id}", response_model=MathResult)
 async def get_result(job_id: str):
     session = SessionLocal()
@@ -53,7 +54,8 @@ async def get_result(job_id: str):
         if op.result is None:
             return JSONResponse(
                 status_code=500,
-                content={"detail": "Result is not available yet or failed to process."}
+                content={
+                    "detail": "Result is not available yet or failed to process."}
             )
         return {
             "result": str(op.result),  # Convert result to string
@@ -67,6 +69,7 @@ async def get_result(job_id: str):
         )
     finally:
         session.close()
+
 
 @router.get("/ui", response_class=HTMLResponse)
 async def serve_ui():

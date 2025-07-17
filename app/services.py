@@ -1,6 +1,7 @@
 def calc_pow(a: int, b: int) -> int:
     return a ** b
 
+
 def calc_fib(n: int) -> int:
     if n <= 1:
         return n
@@ -8,6 +9,7 @@ def calc_fib(n: int) -> int:
     for _ in range(2, n+1):
         a, b = b, a + b
     return b
+
 
 def calc_fact(n: int) -> int:
     if n < 0:

@@ -3,3 +3,4 @@ uvicorn
 sqlalchemy
 pydantic
 flake8
+autopep8

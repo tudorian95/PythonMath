@@ -11,6 +11,7 @@ app.include_router(router)
 
 Base.metadata.create_all(bind=engine)
 
+
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(worker())
