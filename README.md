@@ -4,10 +4,10 @@ A lightweight python microservice that supports three math operations: power, fi
 
 ## Tech stack
 - Python 3.11 lite
- - FastAPI async API
- - Async worker queue
- - SQLite logging
- - Pydantic for serialization
+  - FastAPI async API
+  - Async worker queue
+  - SQLite logging
+  - Pydantic for serialization
 - Docker-ready
 
 ## Build and run
