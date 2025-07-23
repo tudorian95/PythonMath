@@ -23,6 +23,7 @@ docker run -p 8000:8000 -v "C:\Users\tudor\source\repos\PythonMath\db:/app/db" m
 
 ## API Example
 ```
+Visit (http://localhost:8000/docs) to inspect all endpoints.
 POST /calculate
 {
   "op": "pow",
