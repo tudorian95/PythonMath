@@ -11,7 +11,16 @@ A lightweight python microservice that supports three math operations: power, fi
 - Docker-ready
 
 ## Build and run
+Prerequisites: 
+- docker up and running
+- git installed
+
+Select an empty folder in which you want to download the repository
+and then run these commands:
+
 ```cmd
+git clone git@github.com:tudorian95/PythonMath.git
+
 docker build -t mathops .
 
 for cmd use:
@@ -21,9 +30,13 @@ for powershell use:
 docker run -p 8000:8000 -v "C:\Users\tudor\source\repos\PythonMath\db:/app/db" mathops
 ```
 
+## Interact with the web UI
+Visit (http://localhost:8000/ui) to use the form-based interface.
+Visit (http://localhost:8000/db) to check the logs of the operations.
+
 ## API Example
-```
 Visit (http://localhost:8000/docs) to inspect all endpoints.
+```
 POST /calculate
 {
   "op": "pow",
@@ -33,7 +46,3 @@ POST /calculate
 
 GET /result/{job_id}
 ```
-
-## Interact with the web UI
-Visit (http://localhost:8000/ui) to use the form-based interface.
-Visit (http://localhost:8000/db) to check the logs of the operations.
