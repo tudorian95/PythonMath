@@ -15,7 +15,7 @@ Prerequisites:
 - docker up and running
 - git installed
 
-Select an empty folder in which you want to download the repository
+Select an empty folder in which you want to download the repository, 'cd' to folder path
 and then run these commands:
 
 ```cmd
