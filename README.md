@@ -19,7 +19,9 @@ Select an empty folder in which you want to download the repository
 and then run these commands:
 
 ```cmd
-git clone git@github.com:tudorian95/PythonMath.git
+git clone git clone https://github.com/tudorian95/PythonMath.git
+
+cd .\PythonMath
 
 docker build -t mathops .
 
